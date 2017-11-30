@@ -1,0 +1,41 @@
+{% extends "cake/base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+
+<div class="am-g am-imglist">
+    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-6 am-gallery-default">
+
+        {% for cake in allcake %}
+        <li>
+            <div class="am-gallery-item am_list_block">
+                <a href="{% url 'cake:detail' cake.id %}" class="am_img_bg" >
+                    <img class="am_img animated" src="{% static 'img/loading.gif' %}"
+                         data-original="/static/img/{{cake.img1}}"
+                         alt="满街香蛋糕欢迎您"/>
+                </a>
+
+                <div class="am_listimg_info">
+                    <span class="am-icon-cny am-danger"
+                          style="margin-right:0px;color:#ff0000;font-size:15px">{{cake.price}}</span>
+                </div>
+                <span class="am_imglist_user_font">{{cake.name}}</span>
+
+            </div>
+        </li>
+
+        {% endfor %}
+
+    </ul>
+</div>
+
+
+<script src="{% static 'js/petshow.js' %}"></script>
+
+
+{% endblock %}
+
+
