@@ -12,8 +12,8 @@ admin.site.site_header = "后台管理"
 class cakeAdmin(admin.ModelAdmin):
     list_display = ('name', 'code', 'size', 'price', 'image')
     formfield_overrides = {models.ImageField: {'widget': ImageWidget}}
-    list_filter = ('category_id',)
-    search_fields = ('name',)
+    list_filter = ('category_id', 'size')
+    search_fields = ('name', 'code')
 
 
 admin.site.register(Cake, cakeAdmin)

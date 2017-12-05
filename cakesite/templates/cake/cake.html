@@ -4,6 +4,14 @@
 
 {% block content %}
 
+<style>
+    body{
+        font-family:""
+    }
+
+
+</style>
+
 
 <div class="am-g am-imglist">
     <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
@@ -12,17 +20,29 @@
         {% for cake in allcake %}
         <li>
             <div class="am-gallery-item am_list_block">
-                <a href="{% url 'cake:detail' cake.id %}" class="am_img_bg" >
-                    <img class="am_img animated" src="{% static 'img/loading.gif' %}"
-                         data-original="/static/img/{{cake.img1}}"
-                         alt="满街香蛋糕欢迎您"/>
+
+                <a href="{% url 'cake:detail' cake.id %}">
+
+                    <div>
+                        <span class="am_imglist_user_font" style="color:#333">编号：{{cake.code}}</span>
+                    </div>
+
+                    <div class="am_img_bg">
+                        <img class="am_img animated" src="{% static 'img/loading.gif' %}"
+                             data-original="/static/img/{{cake.img1}}"
+                             alt="满街香蛋糕欢迎您"/>
+                    </div>
+
+                    <div class="am_listimg_info">
+                    <span
+                            style="margin-right:0px;color:#ff0000;font-size:15px">￥{{cake.price}}</span>
+                    </div>
+                    <div>
+                        <span class="am_imglist_user_font" style="color:#333">尺寸：{{cake.size}}寸</span>
+                    </div>
+                    <span class="am_imglist_user_font" style="color:#333">{{cake.name}}</span>
                 </a>
 
-                <div class="am_listimg_info">
-                    <span class="am-icon-cny am-danger"
-                          style="margin-right:0px;color:#ff0000;font-size:15px">{{cake.price}}</span>
-                </div>
-                <span class="am_imglist_user_font">{{cake.name}}</span>
 
             </div>
         </li>
@@ -31,6 +51,14 @@
 
     </ul>
 </div>
+
+
+<div id="moreCake" class="am_news_load">
+      <span style="color:#333">
+          <i class="am-icon-spinner am-icon-spin"></i> 查看更多</span>
+</div>
+
+<div style="height:50px"></div>
 
 
 <script src="{% static 'js/petshow.js' %}"></script>
