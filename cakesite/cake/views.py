@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.core import serializers
 
+
 # Create your views here.
 
 def category(request):
@@ -21,8 +22,15 @@ def cakeList(request, category_id):
     return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake, "cake_id": int(category_id)})
 
 
+def moreCake(request):
+    allCake = Cake.objects.all()
+    paginator = Paginator(allCake, 10)
+    page = request.GET.get('page')
+    data = serializers.serialize("json", allCake)
+    return JsonResponse(data, safe=False)
+
+
 def cakeDetail(request, cake_id):
     cake_detail = Cake.objects.get(id=cake_id)
     categorys = Category.objects.all()
     return render(request, "cake/detail.html", {"categorys": categorys, "detail": cake_detail})
-

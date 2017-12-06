@@ -10,11 +10,12 @@
     }
 
 
+
 </style>
 
 
 <div class="am-g am-imglist">
-    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
+    <ul id="cake_content" data-am-widget="gallery" class="am-gallery am-avg-sm-2
   am-avg-md-3 am-avg-lg-6 am-gallery-default">
 
         {% for cake in allcake %}
@@ -42,8 +43,6 @@
                     </div>
                     <span class="am_imglist_user_font" style="color:#333">{{cake.name}}</span>
                 </a>
-
-
             </div>
         </li>
 
@@ -59,6 +58,70 @@
 </div>
 
 <div style="height:50px"></div>
+
+
+<script>
+
+    $("#moreCake").click(function(){
+        console.log("========")
+
+        $.ajax({
+        type:'GET',
+        url:'{% url 'cake:moreCake' %}',
+        dataType:'json',
+        success:function(response, status){
+            console.log(response);
+            console.log(status);
+            var data = JSON.parse(response)
+            console.log(data);
+
+            $.each(data,function(i,item){
+                console.log(i)
+                console.log(item.fields.img1)
+
+                var imgUrl = "/static/img/" + item.fields.img1
+
+                var baseurl = "{% url 'cake:detail' 0 %}".replace('0', item.pk)
+
+                $("#cake_content").append("<li>"
+                    + "<div class='am-gallery-item am_list_block'> "
+                    + " <a href= "+baseurl + " > "
+                    + "<div>"
+                    + " <span class='am_imglist_user_font' style='color:#333'>编号："+item.fields.code+"</span>"
+                    + "</div>"
+                    + "<div class='am_img_bg'>"
+                    + "<img class='am_img animated' src='{% static 'img/loading.gif' %}' "
+                    + "data-original="+imgUrl+ " "
+                    + "alt='满街香蛋糕欢迎您'/> "
+                    + "</div>"
+                    + "<div class='am_listimg_info'>"
+                    + "<span style='margin-right:0px;color:#ff0000;font-size:15px'>￥"+item.fields.price+"</span> "
+                    + "</div>"
+                    + "<div>"
+                    + "<span class='am_imglist_user_font' style='color:#333'>尺寸："+item.fields.size+"寸</span>"
+                    + "</div>"
+                    + "<span class='am_imglist_user_font' style='color:#333'>"+item.fields.name+"</span>"
+                    + " </a> "
+                    + "</div>"
+                    + "</li>"
+
+                )
+
+                //@懒加载
+                $("img.am_img").lazyload();
+                  $("a.am_img_bg").lazyload({
+                  effect : 'fadeIn'
+                });
+
+            })
+
+        }
+    })
+    })
+
+
+
+</script>
 
 
 <script src="{% static 'js/petshow.js' %}"></script>
