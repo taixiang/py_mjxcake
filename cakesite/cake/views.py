@@ -20,13 +20,33 @@ def category(request):
     except EmptyPage:
         allcake = paginator.page(paginator.num_pages)
 
-    return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake})
+    if allcake.has_next():
+        has_next = True
+    else:
+        has_next = False
+
+    return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake, "has_next": has_next})
 
 
 def cakeList(request, category_id):
     categorys = Category.objects.all()
-    allcake = Cake.objects.filter(category_id=category_id)
-    return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake, "cake_id": int(category_id)})
+    allData = Cake.objects.filter(category_id=category_id)
+    paginator = Paginator(allData, 1)
+    page = request.GET.get('page')
+
+    try:
+        allcake = paginator.page(page)
+    except PageNotAnInteger:
+        allcake = paginator.page(1)
+    except EmptyPage:
+        allcake = paginator.page(paginator.num_pages)
+
+    if allcake.has_next():
+        has_next = True
+    else:
+        has_next = False
+
+    return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake, "has_next": has_next, "cake_id": int(category_id)})
 
 
 def moreCake(request):
@@ -41,9 +61,9 @@ def moreCake(request):
         customer = paginator.page(paginator.num_pages)
     data = serializers.serialize("json", customer)
     if customer.has_next():
-        data = "{ \"data\":" + data + ",\"page\":" + page + ", }"
+        data = "{ \"data\":" + data + ",\"page\":" + page + ",\"next\":\"1\" }"
     else:
-        data = "{ \"data\":" + data + ",\"page\":" + page + " }"
+        data = "{ \"data\":" + data + ",\"page\":" + page + ",\"next\":\"\" }"
 
     return JsonResponse(data, safe=False)
 

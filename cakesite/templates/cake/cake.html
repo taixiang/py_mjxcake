@@ -8,10 +8,6 @@
     body{
         font-family:""
     }
-
-
-
-
 </style>
 
 
@@ -52,11 +48,12 @@
     </ul>
 </div>
 
-
+{% if has_next %}
 <div id="moreCake" class="am_news_load">
       <span style="color:#333">
           <i class="am-icon-spinner am-icon-spin"></i> 查看更多</span>
 </div>
+{% endif %}
 
 <div style="height:50px"></div>
 
@@ -75,6 +72,10 @@
             console.log(status);
             var data = JSON.parse(response)
             console.log(data);
+            if(!data.next){
+                $("#moreCake").css("display","none");
+            }
+
             page = data.page+1;
             $.each(data.data,function(i,item){
                 console.log(i)
