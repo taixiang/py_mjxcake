@@ -11,7 +11,14 @@ def category(request):
     categorys = Category.objects.all()
     allData = Cake.objects.all()
     paginator = Paginator(allData, 1)
-    allcake = paginator.page(1)
+    page = request.GET.get('page')
+
+    try:
+        allcake = paginator.page(page)
+    except PageNotAnInteger:
+        allcake = paginator.page(1)
+    except EmptyPage:
+        allcake = paginator.page(paginator.num_pages)
 
     return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake})
 
@@ -24,9 +31,20 @@ def cakeList(request, category_id):
 
 def moreCake(request):
     allCake = Cake.objects.all()
-    paginator = Paginator(allCake, 10)
+    paginator = Paginator(allCake, 1)
     page = request.GET.get('page')
-    data = serializers.serialize("json", allCake)
+    try:
+        customer = paginator.page(page)
+    except PageNotAnInteger:
+        customer = paginator.page(1)
+    except EmptyPage:
+        customer = paginator.page(paginator.num_pages)
+    data = serializers.serialize("json", customer)
+    if customer.has_next():
+        data = "{ \"data\":" + data + ",\"page\":" + page + ", }"
+    else:
+        data = "{ \"data\":" + data + ",\"page\":" + page + " }"
+
     return JsonResponse(data, safe=False)
 
 

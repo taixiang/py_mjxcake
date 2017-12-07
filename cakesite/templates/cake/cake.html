@@ -11,6 +11,7 @@
 
 
 
+
 </style>
 
 
@@ -61,21 +62,21 @@
 
 
 <script>
-
+    var page = 2
     $("#moreCake").click(function(){
         console.log("========")
 
         $.ajax({
         type:'GET',
-        url:'{% url 'cake:moreCake' %}',
+        url:'{% url 'cake:moreCake' %}?page='+page,
         dataType:'json',
         success:function(response, status){
             console.log(response);
             console.log(status);
             var data = JSON.parse(response)
             console.log(data);
-
-            $.each(data,function(i,item){
+            page = data.page+1;
+            $.each(data.data,function(i,item){
                 console.log(i)
                 console.log(item.fields.img1)
 
@@ -91,8 +92,8 @@
                     + "</div>"
                     + "<div class='am_img_bg'>"
                     + "<img class='am_img animated' src='{% static 'img/loading.gif' %}' "
-                    + "data-original="+imgUrl+ " "
-                    + "alt='满街香蛋糕欢迎您'/> "
+                    + " data-original='"+imgUrl+" ' "
+                    + " alt='满街香蛋糕欢迎您'/> "
                     + "</div>"
                     + "<div class='am_listimg_info'>"
                     + "<span style='margin-right:0px;color:#ff0000;font-size:15px'>￥"+item.fields.price+"</span> "
@@ -104,20 +105,27 @@
                     + " </a> "
                     + "</div>"
                     + "</li>"
-
                 )
-
-                //@懒加载
-                $("img.am_img").lazyload();
-                  $("a.am_img_bg").lazyload({
-                  effect : 'fadeIn'
-                });
-
             })
+            //避免首次进入一直loading
+            $('.am_img_bg').removeClass('am_img_bg');
+            $(this).find('.am_img').addClass('bounceIn');
+
+            //@首页 图片滑动效果
+            $(".am_list_block").on('mouseover', function(){
+                $('.am_img_bg').removeClass('am_img_bg');
+                $(this).find('.am_img').addClass('bounceIn');
+            });
+            //@懒加载
+            $("img.am_img").lazyload();
+              $("a.am_img_bg").lazyload({
+              effect : 'fadeIn'
+            });
 
         }
     })
     })
+
 
 
 
