@@ -44,3 +44,29 @@ class Cake(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Message(models.Model):
+    logo = models.ImageField("logo图", upload_to="photos/%Y/%m/%d")
+    slogen = models.CharField("标语", max_length=40, default="", blank=True)
+    address = models.CharField("地址", max_length=50, default="", blank=True)
+    qrcode = models.ImageField("微信二维码", upload_to="photos/%Y/%m/%d")
+
+    class Meta:
+        verbose_name = "基本信息"
+        verbose_name_plural = "基本信息"
+
+    def logoImg(self):
+        return '<img src="/static/img/%s" width="50px" height="50px" />' % self.logo
+
+    logoImg.allow_tags = True
+    logoImg.short_description = "logo图"
+
+    def qrcodeImg(self):
+        return '<img src="/static/img/%s" width="50px" height="50px" />' % self.qrcode
+
+    qrcodeImg.allow_tags = True
+    qrcodeImg.short_description = "微信二维码"
+
+    def __str__(self):
+        return self.slogen
