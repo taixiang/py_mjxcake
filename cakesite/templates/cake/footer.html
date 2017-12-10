@@ -7,15 +7,15 @@
         <div class="am_footer_don">
             <span>满街香蛋糕</span>
             <dl>
-                <dt><img src="{% static 'pic/cake1.png' %}" alt=""></dt>
-                <dd>姜堰********
+                <dt><img src="/static/img/{{message.logo}}" alt=""></dt>
+                <dd>{{message.address}}
                     </dd>
 
             </dl>
         </div>
 
         <div class="am_footer_erweima">
-            <div class="am_footer_weixin"><img src="{% static 'pic/head0.png' %}" alt="">
+            <div class="am_footer_weixin"><img src="/static/img/{{message.qrcode}}" alt="">
 
                 <div class="am_footer_d_gzwx am-icon-weixin"> 关注微信</div>
             </div>
@@ -24,5 +24,5 @@
         </div>
 
     </div>
-    <div class="am_info_line">Copyright(c)2015 <span>PetShow</span> All Rights Reserved</div>
+    <div class="am_info_line">Copyright(c)2018 <span>满街香蛋糕</span> All Rights Reserved</div>
 </footer>

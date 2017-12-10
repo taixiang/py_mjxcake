@@ -47,10 +47,10 @@ class Cake(models.Model):
 
 
 class Message(models.Model):
-    logo = models.ImageField("logo图", upload_to="photos/%Y/%m/%d")
+    logo = models.ImageField("logo图", default="photos/logo.png", upload_to="photos/%Y/%m/%d")
     slogen = models.CharField("标语", max_length=40, default="", blank=True)
     address = models.CharField("地址", max_length=50, default="", blank=True)
-    qrcode = models.ImageField("微信二维码", upload_to="photos/%Y/%m/%d")
+    qrcode = models.ImageField("微信二维码", default="photos/qrcode.png", upload_to="photos/%Y/%m/%d")
 
     class Meta:
         verbose_name = "基本信息"
