@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'fuf4=t0-aec5ms!$-gf_crml8_^$60pit2=4t@0dttpsub_9)p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # TODO 修改host 避免使用*
 ALLOWED_HOSTS = ['*']
