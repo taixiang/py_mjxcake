@@ -16,10 +16,17 @@ Including another URLconf
 from django.conf.urls import url, include, handler404
 from django.contrib import admin
 from cake import views
+from django.conf.urls.static import static
+from django.conf import settings
+import os
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^cake/', include('cake.urls', namespace='cake', app_name='cake')),
     url(r'^$', views.category)
 ]
+
+if settings.DEBUG:
+    media_root = os.path.join(settings.BASE_DIR,'upload/img')
+    urlpatterns += static('/upload/img/', document_root=media_root)
 handler404 = views.page_not_find

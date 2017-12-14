@@ -37,7 +37,7 @@ class Cake(models.Model):
         verbose_name_plural = "蛋糕列表"
 
     def image(self):
-        return '<img src="/static/img/%s" width="50px" height="50px" />' % self.img1
+        return '<img src="/upload/img/%s" width="50px" height="50px" />' % self.img1
 
     image.allow_tags = True
     image.short_description = "图片"
@@ -57,13 +57,13 @@ class Message(models.Model):
         verbose_name_plural = "基本信息"
 
     def logoImg(self):
-        return '<img src="/static/img/%s" width="50px" height="50px" />' % self.logo
+        return '<img src="/upload/img/%s" width="50px" height="50px" />' % self.logo
 
     logoImg.allow_tags = True
     logoImg.short_description = "logo图"
 
     def qrcodeImg(self):
-        return '<img src="/static/img/%s" width="50px" height="50px" />' % self.qrcode
+        return '<img src="/upload/img/%s" width="50px" height="50px" />' % self.qrcode
 
     qrcodeImg.allow_tags = True
     qrcodeImg.short_description = "微信二维码"

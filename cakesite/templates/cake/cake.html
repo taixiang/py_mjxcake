@@ -27,7 +27,7 @@
 
                     <div class="am_img_bg">
                         <img class="am_img animated" src="{% static 'img/loading.gif' %}"
-                             data-original="/static/img/{{cake.img1}}"
+                             data-original="/upload/img/{{cake.img1}}"
                              alt="满街香蛋糕欢迎您"/>
                     </div>
 
@@ -82,7 +82,7 @@
                 console.log(i)
                 console.log(item.fields.img1)
 
-                var imgUrl = "/static/img/" + item.fields.img1
+                var imgUrl = "/upload/img/" + item.fields.img1
 
                 var baseurl = "{% url 'cake:detail' 0 %}".replace('0', item.pk)
 
