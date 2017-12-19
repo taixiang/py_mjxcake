@@ -17,11 +17,23 @@
     <script src="{% static 'js/countUp.min.js' %}"></script>
     <script src="{% static 'js/amazeui.lazyload.min.js' %}"></script>
 
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?fc58c91e67d7cbaced16be40fe6eaeb7";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+
+    </script>
+
+
 </head>
 <body>
-    {% include "cake/header.html" %}
-    {% block content %}{% endblock %}
-    {% include "cake/footer.html" %}
+{% include "cake/header.html" %}
+{% block content %}{% endblock %}
+{% include "cake/footer.html" %}
 
 </body>
 </html>
