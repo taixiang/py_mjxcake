@@ -11,7 +11,7 @@ def category(request):
     categorys = Category.objects.all()
     message = Message.objects.first()
     allData = Cake.objects.all()
-    paginator = Paginator(allData, 1)
+    paginator = Paginator(allData, 10)
     page = request.GET.get('page')
 
     try:
@@ -33,7 +33,7 @@ def cakeList(request, category_id):
     categorys = Category.objects.all()
     message = Message.objects.first()
     allData = Cake.objects.filter(category_id=category_id)
-    paginator = Paginator(allData, 1)
+    paginator = Paginator(allData, 10)
     page = request.GET.get('page')
 
     try:
@@ -53,7 +53,7 @@ def cakeList(request, category_id):
 
 def moreCake(request):
     allCake = Cake.objects.all()
-    paginator = Paginator(allCake, 1)
+    paginator = Paginator(allCake, 10)
     page = request.GET.get('page')
     try:
         customer = paginator.page(page)

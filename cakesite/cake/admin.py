@@ -15,6 +15,7 @@ class cakeAdmin(admin.ModelAdmin):
     formfield_overrides = {models.ImageField: {'widget': ImageWidget}}
     list_filter = ('category_id', 'size')
     search_fields = ('name', 'code')
+    list_per_page = 10
 
 
 admin.site.register(Cake, cakeAdmin)

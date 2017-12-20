@@ -29,7 +29,7 @@ class Cake(models.Model):
     order = models.IntegerField("权重值", default=0, help_text="值越大越靠前")
     desc = models.TextField("描述", default="", help_text="每个蛋糕都拥有一段故事", blank=True)
     pub_time = models.DateTimeField("时间", default=timezone.now)
-    category_id = models.ManyToManyField("Category", related_name="cake_post", verbose_name="分类")
+    category_id = models.ManyToManyField("Category", related_name="cake_post", verbose_name="分类", blank=True)
 
     class Meta:
         ordering = ["-order", "pub_time"]
