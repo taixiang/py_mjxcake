@@ -1,0 +1,15 @@
+{% extends "english/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <article data-am-widget="paragraph" class="am-paragraph am-paragraph-default article_nr"
+    data-am-paragraph="{ tableScrollable: true, pureview: true }">
+        <audio  id="mediaPlayId" class="player" style="position:fixed"  src="http://online2.tingclass.net/lesson/shi0529/0008/8694/20171228d.mp3" controls="controls">
+          Your browser does not support the <code>audio</code>
+        </audio>
+
+         <div style="margin-top:60px">{{detail.content | linebreaks}}</div>
+    </article>
+
+{% endblock %}

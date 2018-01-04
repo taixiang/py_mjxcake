@@ -1,0 +1,73 @@
+{% extends "english/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="am-tabs-bd">
+    <div data-tab-panel-0 class="am-tab-panel am-active">
+        <div class="am-list-news-bd am_news_list_all">
+            <ul class="am-list" id="en_content">
+                {% for item in enList %}
+                <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left am_list_li">
+                    <a style="color:#333" href="{% url 'english:detail' item.id %}">
+                        <div>{{item.title}}</div>
+                        <div><span style="float:right">{{item.time | date:"Y-m-d"}}</span></div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% if has_next %}
+            <div id="moreCake" class="am_news_load">
+                <span style="color:#333">
+                    <i class="am-icon-spinner"></i>
+                    查看更多
+                </span>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var page = 2
+    $("#moreCake").click(function(){
+        console.log("========")
+        $(".am-icon-spinner").addClass("am-icon-spin");
+        $.ajax({
+        type:'GET',
+        url:'{% url 'english:more_list' %}?page='+page,
+        dataType:'json',
+        success:function(response, status){
+            console.log(response);
+            console.log(status);
+            var data = JSON.parse(response)
+            console.log(data);
+            $(".am-icon-spinner").removeClass("am-icon-spin");
+            if(!data.next){
+                $("#moreCake").css("display","none");
+            }
+            page = data.page+1;
+            $.each(data.data,function(i,item){
+                console.log(i)
+                console.log(item.fields.img1)
+                var url = "{% url 'english:detail' 0 %}".replace('0', item.pk)
+                $("#en_content").append(
+                    "<li class='am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left am_list_li'> "
+                    + " <a style='color:#333' href="+ url +" > "
+                    + "<div>"+ item.fields.title +"</div>"
+                    + "<div><span style='float:right'>" + item.fields.time+"</span></div>"
+                    + " </a> "
+                    + "</li>"
+                 )
+
+            })
+
+        }
+    })
+    })
+</script>
+
+
+{% endblock %}

@@ -23,7 +23,8 @@ import os
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^cake/', include('cake.urls', namespace='cake', app_name='cake')),
-    url(r'^$', views.category)
+    url(r'^$', views.category),
+    url(r'^english/', include('english.urls', namespace='english', app_name='english')),
 ]
 
 if settings.DEBUG:
