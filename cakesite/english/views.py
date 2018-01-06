@@ -3,6 +3,7 @@ from english.models import learn
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.core import serializers
+from english import spiderEnglish
 
 
 # Create your views here.
@@ -48,3 +49,7 @@ def more_list(request):
 def enDetail(request, enid):
     detail = learn.objects.get(id=enid)
     return render(request, "english/detail.html", {"detail": detail})
+
+def get_script_run(request):
+    spiderEnglish.spiderEn()
+    return render(request, "english/runscript.html")

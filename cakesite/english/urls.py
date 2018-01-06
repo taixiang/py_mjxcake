@@ -5,4 +5,5 @@ urlpatterns = [
     url(r'^$', views.enList, name='enList'),
     url(r'(?P<enid>\d+)/detail/$', views.enDetail, name='detail'),
     url(r'^more_list/$', views.more_list, name='more_list'),
+    url(r'^runscript/$', views.get_script_run, name='runscript'),
 ]
