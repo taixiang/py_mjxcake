@@ -9,7 +9,7 @@ from django.core import serializers
 
 def enList(request):
     enList = learn.objects.all()
-    paginator = Paginator(enList, 2)
+    paginator = Paginator(enList, 10)
     page = request.GET.get('page')
     try:
         customer = paginator.page(page)
@@ -28,7 +28,7 @@ def enList(request):
 
 def more_list(request):
     enList = learn.objects.all()
-    paginator = Paginator(enList, 2)
+    paginator = Paginator(enList, 10)
     page = request.GET.get('page')
     try:
         customer = paginator.page(page)
