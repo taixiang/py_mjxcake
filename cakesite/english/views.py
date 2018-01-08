@@ -4,12 +4,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.core import serializers
 from english import spiderEnglish
+from cake.models import Message
 
 
 # Create your views here.
 
 def enList(request):
     enList = learn.objects.all()
+    message = Message.objects.first()
     paginator = Paginator(enList, 10)
     page = request.GET.get('page')
     try:
@@ -24,7 +26,7 @@ def enList(request):
     else:
         has_next = False
 
-    return render(request, "english/english.html", {"enList": customer, "has_next": has_next})
+    return render(request, "english/english.html", {"enList": customer, "has_next": has_next, "message": message})
 
 
 def more_list(request):
