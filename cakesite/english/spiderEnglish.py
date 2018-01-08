@@ -38,4 +38,4 @@ def spiderEn():
                     learnEn.content = en_content
                     learnEn.save()
 
-spiderEn()
+# spiderEn()
