@@ -19,8 +19,8 @@ class Category(models.Model):
 
 class Cake(models.Model):
     name = models.CharField("名称", max_length=40, default="", blank=True)
-    code = models.CharField("编号", max_length=40, help_text="必填")
-    size = models.CharField("尺寸", max_length=10, help_text="必填，直接填写对应数字即可，例：填13即为13寸")
+    code = models.CharField("编号", max_length=40, default="", blank=True)
+    size = models.CharField("尺寸", max_length=10, default="", blank=True, help_text="直接填写对应数字即可，例：填13即为13寸")
     price = models.IntegerField("价格", default=0)
     img1 = models.ImageField("图片1", upload_to="photos/%Y/%m/%d", help_text="必填")
     img2 = models.ImageField("图片2", upload_to="photos/%Y/%m/%d", default="photos/blank.jpg", blank=True, null=True)
