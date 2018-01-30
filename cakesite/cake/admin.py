@@ -24,7 +24,7 @@ class ImageWidget2(forms.FileInput):
         input_html = super(ImageWidget2, self).render(name, value, attrs)
         if hasattr(value, 'width') and hasattr(value, 'height'):
 
-            image_html = '<img src="/upload/img/%s" width="50px" height="50px" />' % value.name
+            image_html = '<img src="/upload/img/%s" width="60px" height="60px" />' % value.name
 
             output = self.template % {'input': input_html,
                                       'image': image_html}
@@ -34,7 +34,7 @@ class ImageWidget2(forms.FileInput):
 
 
 class cakeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'code', 'size', 'price', 'image')
+    list_display = ('image', 'name', 'code', 'size', 'price')
     formfield_overrides = {models.ImageField: {'widget': ImageWidget2}}
     list_filter = ('category_id', 'size')
     search_fields = ('name', 'code')

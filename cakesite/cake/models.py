@@ -37,7 +37,7 @@ class Cake(models.Model):
         verbose_name_plural = "蛋糕列表"
 
     def image(self):
-        return '<img src="/upload/img/%s" width="50px" height="50px" />' % self.img1
+        return '<img src="/upload/img/%s" width="60px" height="60px" />' % self.img1
 
     image.allow_tags = True
     image.short_description = "图片"
