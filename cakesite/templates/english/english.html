@@ -33,25 +33,23 @@
 <script>
     var page = 2
     $("#moreCake").click(function(){
-        console.log("========")
+
         $(".am-icon-spinner").addClass("am-icon-spin");
         $.ajax({
         type:'GET',
         url:'{% url 'english:more_list' %}?page='+page,
         dataType:'json',
         success:function(response, status){
-            console.log(response);
-            console.log(status);
+
             var data = JSON.parse(response)
-            console.log(data);
+
             $(".am-icon-spinner").removeClass("am-icon-spin");
             if(!data.next){
                 $("#moreCake").css("display","none");
             }
             page = data.page+1;
             $.each(data.data,function(i,item){
-                console.log(i)
-                console.log(item.fields.img1)
+
                 var url = "{% url 'english:detail' 0 %}".replace('0', item.pk)
                 $("#en_content").append(
                     "<li class='am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left am_list_li'> "

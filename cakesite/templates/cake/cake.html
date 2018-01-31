@@ -62,17 +62,17 @@
 <script>
     var page = 2
     $("#moreCake").click(function(){
-        console.log("========")
+
         $(".am-icon-spinner").addClass("am-icon-spin");
         $.ajax({
         type:'GET',
         url:'{% url 'cake:moreCake' %}?page='+page,
         dataType:'json',
         success:function(response, status){
-            console.log(response);
-            console.log(status);
+
+
             var data = JSON.parse(response)
-            console.log(data);
+
             $(".am-icon-spinner").removeClass("am-icon-spin");
             if(!data.next){
                 $("#moreCake").css("display","none");
@@ -80,8 +80,7 @@
 
             page = data.page+1;
             $.each(data.data,function(i,item){
-                console.log(i)
-                console.log(item.fields.img1)
+
 
                 var imgUrl = "/upload/img/" + item.fields.img1
 
