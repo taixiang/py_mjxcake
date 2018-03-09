@@ -26,7 +26,8 @@ def category(request):
     else:
         has_next = False
 
-    return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake, "has_next": has_next, "message": message})
+    return render(request, "cake/cake.html",
+                  {"categorys": categorys, "allcake": allcake, "has_next": has_next, "message": message})
 
 
 def cakeList(request, category_id):
@@ -48,7 +49,9 @@ def cakeList(request, category_id):
     else:
         has_next = False
 
-    return render(request, "cake/cake.html", {"categorys": categorys, "allcake": allcake, "has_next": has_next, "cake_id": int(category_id), "message": message})
+    return render(request, "cake/cake.html",
+                  {"categorys": categorys, "allcake": allcake, "has_next": has_next, "cake_id": int(category_id),
+                   "message": message})
 
 
 def moreCake(request):
@@ -80,3 +83,5 @@ def cakeDetail(request, cake_id):
 
 def page_not_find(request):
     return render(request, "cake/404.html")
+
+# 接口
