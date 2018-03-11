@@ -3,6 +3,12 @@ from .models import Category, Cake, Message
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.core import serializers
+from cake.serialize import CakeListSerializer, ResultPagination
+from django.contrib.auth.models import User
+from rest_framework.response import Response
+from rest_framework.decorators import detail_route
+from collections import OrderedDict
+from rest_framework import viewsets, generics, renderers
 
 
 # Create your views here.
@@ -84,4 +90,35 @@ def cakeDetail(request, cake_id):
 def page_not_find(request):
     return render(request, "cake/404.html")
 
+
 # 接口
+
+class CakeListViewSet(viewsets.ModelViewSet):
+    pagination_class = ResultPagination
+    queryset = Cake.objects.all()
+    serializer_class = CakeListSerializer
+
+    def list(self, request, *args, **kwargs):
+        try:
+            queryset = self.filter_queryset(self.get_queryset())
+            page = self.paginate_queryset(queryset)
+            print(111111111)
+            print(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+
+                return Response(OrderedDict([
+                    ('code', 200),
+                    ('count', self.paginator.page.paginator.count),
+                    ('next', self.paginator.get_next_link()),
+                    ('previous', self.paginator.get_previous_link()),
+                    ('results', serializer.data)
+                ]))
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))

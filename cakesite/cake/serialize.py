@@ -12,4 +12,8 @@ class CakeListSerializer(serializers.ModelSerializer):
     pub_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     class Meta:
         model = Cake
-        fields = ('id', 'name', 'price', 'discount_price', 'desc', 'label', 'pub_time', 'category_id')
+        fields = ('id', 'name', 'price', 'desc', 'label', 'pub_time', 'category_id')
+
+
+class ResultPagination(PageNumberPagination):
+    page_size = 2
