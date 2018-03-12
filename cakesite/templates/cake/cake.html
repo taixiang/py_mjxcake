@@ -8,6 +8,7 @@
     body{
         font-family:Arial, "Microsoft Yahei";
     }
+
 </style>
 
 
@@ -22,7 +23,10 @@
                 <a href="{% url 'cake:detail' cake.id %}">
 
                     <div>
+                        {% if cake.code %}
                         <span class="am_imglist_user_font" style="color:#333">编号：{{cake.code}}</span>
+                        {% endif %}
+
                     </div>
 
                     <div class="am_img_bg">
@@ -32,7 +36,9 @@
                     </div>
 
                     <div class="am_listimg_info">
+                        {% if cake.price %}
                         <span style="margin-right:0px;color:#ff0000;font-size:15px">￥{{cake.price}}</span>
+                        {% endif %}
                     </div>
                     <div>
                         {% if cake.size %}
@@ -124,6 +130,7 @@
         }
     })
     })
+
 
 
 
