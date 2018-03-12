@@ -3,7 +3,7 @@ from .models import Category, Cake, Message
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.core import serializers
-from cake.serialize import CakeListSerializer, ResultPagination
+from cake.serialize import CakeListSerializer, ResultPagination, DetailSerializer
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
@@ -117,6 +117,26 @@ class CakeListViewSet(viewsets.ModelViewSet):
 
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
+
+class DetailViewSet(viewsets.ModelViewSet):
+    queryset = Cake.objects.all()
+    serializer_class = DetailSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            pkid = kwargs.get('pk')
+            data = Cake.objects.get(id=pkid)
+            serializer = self.get_serializer(data)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
         except:
             return Response(OrderedDict([
                 ('code', 500),

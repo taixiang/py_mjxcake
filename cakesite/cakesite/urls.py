@@ -21,9 +21,9 @@ from django.conf import settings
 from rest_framework import routers
 import os
 
-
 router = routers.DefaultRouter()
 router.register(r'cakelist', views.CakeListViewSet)
+router.register(r'detail', views.DetailViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -36,6 +36,6 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    media_root = os.path.join(settings.BASE_DIR,'upload/img')
+    media_root = os.path.join(settings.BASE_DIR, 'upload/img')
     urlpatterns += static('/upload/img/', document_root=media_root)
 handler404 = views.page_not_find
