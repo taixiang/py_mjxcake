@@ -22,8 +22,8 @@ from rest_framework import routers
 import os
 
 router = routers.DefaultRouter()
-router.register(r'cakelist', views.CakeListViewSet)
-router.register(r'detail', views.DetailViewSet)
+router.register(r'cakelist', views.CakeListViewSet, base_name='cakeist')
+router.register(r'detail', views.DetailViewSet, base_name='detail')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
