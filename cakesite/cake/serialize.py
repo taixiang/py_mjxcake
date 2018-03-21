@@ -19,7 +19,7 @@ class CakeListSerializer(serializers.ModelSerializer):
 
 
 class ResultPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 10
 
 
 class DetailSerializer(serializers.ModelSerializer):
