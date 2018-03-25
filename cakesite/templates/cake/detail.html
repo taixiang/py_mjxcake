@@ -7,18 +7,28 @@
     body{
         font-family:Arial, "Microsoft Yahei";
     }
+
+
 </style>
 
 
 <div class="am_tuya">
-            <div class="ztlb_nr_blockc_r_title">{{detail.name}}</div>
+    <div class="ztlb_nr_blockc_r_title">{{detail.name}}</div>
 
     <div class="am_tuya_content">
         <div class="am_tuya_content_l">
             <div class="am_tuya_more">
+                {% if detail.code %}
                 <div class="am_tuya_oneword">编号：{{detail.code}}</div>
-                <div class="am_tuya_oneword">价格：{{detail.price}}</div>
+                {% endif %}
+                {% if detail.price %}
+                <div class="am_tuya_oneword">价格：￥{{detail.price}}</div>
+                {% endif %}
+                {% if detail.size%}
                 <div class="am_tuya_oneword">尺寸：{{detail.size}}</div>
+
+                {% endif %}
+
                 {% if detail.label %}
                 <div class="am_tuya_oneword">{{detail.label}}</div>
                 {% endif %}
