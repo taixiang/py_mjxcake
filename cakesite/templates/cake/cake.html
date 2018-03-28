@@ -67,12 +67,21 @@
 
 <script>
     var page = 2
+    var cateId = 0
+
+
     $("#moreCake").click(function(){
+        $("#li_con li").each(function(){
+            if($(this).hasClass("am-active")){
+                cateId = $(this).children().first().attr("value")
+            }
+        })
+
 
         $(".am-icon-spinner").addClass("am-icon-spin");
         $.ajax({
         type:'GET',
-        url:'{% url 'cake:moreCake' %}?page='+page,
+        url:'{% url 'cake:moreCake' %}?page='+page + '&cateId='+cateId,
         dataType:'json',
         success:function(response, status){
 

@@ -61,9 +61,15 @@ def cakeList(request, category_id):
 
 
 def moreCake(request):
-    allCake = Cake.objects.all()
-    paginator = Paginator(allCake, 10)
     page = request.GET.get('page')
+    cateId = request.GET.get('cateId')
+    if int(cateId) > 0:
+        allCake = Cake.objects.filter(category_id=cateId)
+    else:
+        allCake = Cake.objects.all()
+
+    paginator = Paginator(allCake, 10)
+
     try:
         customer = paginator.page(page)
     except PageNotAnInteger:
