@@ -7,7 +7,7 @@ import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cakesite.settings")
 django.setup()
-from poem.models import Poetry,PoetryAuthor
+from poem.models import Poetry, PoetryAuthor
 
 if six.PY2:
     import sys
@@ -37,20 +37,19 @@ def convert(txt):
 
 
 def getData():
-    poetrys = Poetry.objects.all()[150000:311828]
+    poetrys = Poetry.objects.all()[300000:311828]
     for poe in poetrys:
         try:
-            title = convert(poe.title)
-            content = convert(poe.content)
-            author = convert(poe.author)
-            poe.title = title
-            poe.content = content
-            poe.author = author
-            print(title)
-            print(content)
-            print(author)
+            new_con = poe.content.replace("|", "\n")
+
+            # poe.title = title
+            poe.content = new_con
+            # poe.author = author
+            # print(title)
+            # print(author)
             poe.save()
         except:
+            print("=====ids2")
             f = open("./ids", "a")
             f.write(str(poe.id) + "\n")
             f.close()
@@ -76,5 +75,6 @@ def getData2():
 
     print("====end")
 
+
 if __name__ == "__main__":
-    getData2()
+    getData()
