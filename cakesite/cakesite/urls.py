@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^english/', include('english.urls', namespace='english', app_name='english')),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^poem/', include('poem.urls', namespace='poem', app_name='poem'))
 
 ]
 

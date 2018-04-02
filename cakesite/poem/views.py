@@ -1,10 +1,15 @@
 from django.db.models import Q
+from django.http import JsonResponse, HttpResponse
 from rest_framework import viewsets
 from poem.serialize import PoemListSerializer, ResultPagination, PoetryListSerializer, PoemAuthorSerializer, \
     PoetryAuthorSerializer
-from .models import Poems, Poetry, PoemsAuthor, PoetryAuthor
+from .models import Poems, Poetry, PoemsAuthor, PoetryAuthor, UserInfo
 from rest_framework.response import Response
 from collections import OrderedDict
+import requests
+from django.core import serializers
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -120,3 +125,36 @@ class PoetryAuthorViewSet(viewsets.ModelViewSet):
                 ('code', 500),
                 ('results', None)
             ]))
+
+
+# 获取openid
+def getOpenId(request):
+    jscode = request.GET.get('code')
+    print(jscode)
+    print(111111)
+    resp = requests.get(
+        "https://api.weixin.qq.com/sns/jscode2session?appid=wxaba8acb899e024e2&secret=88ccaf6b28f01eb1c5e99e60289393eb&js_code=" + str(
+            jscode) + "&grant_type=authorization_code")
+    print(resp.text)
+    # data = serializers.serialize("json", resp.text)
+    return HttpResponse(json.dumps(resp.text), content_type="application/json")
+
+
+@csrf_exempt
+def postUserInfo(request):
+    if request.method == 'POST':
+        # data = request.POST['data']
+        # json.load(request.text)
+
+        data = json.loads(request.body)
+        print(data['openId'])
+        user = UserInfo.objects.filter(openId=data['openId'])
+        print(user)
+        if not user:
+            print("==========")
+            userInfo = UserInfo(nickName=data['nickName'], avatarUrl=data['avatarUrl'], gender=data['gender'],
+                                language=data['language'], city=data['city'], province=data['province'],
+                                country=data['country'], openId=data['openId'])
+            userInfo.save()
+
+    return JsonResponse(None, safe=False)
