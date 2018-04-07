@@ -2,8 +2,8 @@ from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from rest_framework import viewsets
 from poem.serialize import PoemListSerializer, ResultPagination, PoetryListSerializer, PoemAuthorSerializer, \
-    PoetryAuthorSerializer
-from .models import Poems, Poetry, PoemsAuthor, PoetryAuthor, UserInfo
+    PoemDetailSerializer, PoetryAuthorSerializer, PoetryDetailSerializer
+from .models import Poems, Poetry, PoemsAuthor, PoetryAuthor, UserInfo, ErrorInfo
 from rest_framework.response import Response
 from collections import OrderedDict
 import requests
@@ -43,6 +43,39 @@ class PoemListViewSet(viewsets.ModelViewSet):
 
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
+
+class PoemDetailViewSet(viewsets.ModelViewSet):
+    queryset = Poems.objects.all()
+    serializer_class = PoemDetailSerializer
+
+    def list(self, request, *args, **kwargs):
+        return Response(OrderedDict([
+            ('code', 500),
+            ('results', None)
+        ]))
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            pkid = kwargs.get('pk')
+            print(pkid)
+            if pkid is None:
+                return Response(OrderedDict([
+                    ('code', 500),
+                    ('results', None)
+                ]))
+
+            data = Poems.objects.get(id=pkid)
+            serializer = self.get_serializer(data)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
         except:
             return Response(OrderedDict([
                 ('code', 500),
@@ -106,6 +139,32 @@ class PoetryListViewSet(viewsets.ModelViewSet):
             ]))
 
 
+class PoetryDetailViewSet(viewsets.ModelViewSet):
+    queryset = Poetry.objects.all()
+    serializer_class = PoetryDetailSerializer
+
+    def list(self, request, *args, **kwargs):
+        return Response(OrderedDict([
+            ('code', 500),
+            ('results', None)
+        ]))
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            pkid = kwargs.get('pk')
+            data = Poetry.objects.get(id=pkid)
+            serializer = self.get_serializer(data)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
+
 class PoetryAuthorViewSet(viewsets.ModelViewSet):
     queryset = PoetryAuthor.objects.all()
     serializer_class = PoetryAuthorSerializer
@@ -140,6 +199,7 @@ def getOpenId(request):
     return HttpResponse(json.dumps(resp.text), content_type="application/json")
 
 
+# 用户信息保存
 @csrf_exempt
 def postUserInfo(request):
     if request.method == 'POST':
@@ -152,9 +212,24 @@ def postUserInfo(request):
         print(user)
         if not user:
             print("==========")
-            userInfo = UserInfo(nickName=data['nickName'], avatarUrl=data['avatarUrl'], gender=data['gender'],
-                                language=data['language'], city=data['city'], province=data['province'],
-                                country=data['country'], openId=data['openId'])
+            userInfo = UserInfo(**data)
             userInfo.save()
+
+    return JsonResponse(None, safe=False)
+
+#纠错信息
+@csrf_exempt
+def postError(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        ErrorInfo(**data).save()
+        result = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
+
+    return JsonResponse(result, safe=False)
+
+@csrf_exempt
+def postSearch(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
 
     return JsonResponse(None, safe=False)

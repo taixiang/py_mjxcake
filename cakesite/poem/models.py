@@ -68,3 +68,25 @@ class UserInfo(models.Model):
     class Meta:
         verbose_name = "用户列表"
         verbose_name_plural = "用户列表"
+
+#纠错信息
+class ErrorInfo(models.Model):
+    openId = models.CharField("openId", max_length=150, blank=True, default="")
+    pId = models.IntegerField("诗词id")
+    content = models.TextField("内容", default="", blank=True)
+    type = models.IntegerField("诗词类别") #0--诗 1--词
+
+    class Meta:
+        verbose_name = "纠错信息"
+        verbose_name_plural = "纠错信息"
+
+#搜索内容
+class SearchInfo(models.Model):
+    content = models.CharField("搜索内容", max_length=150, blank=True, default="")
+    openId = models.CharField("openId", max_length=150, blank=True, default="")
+    type = models.IntegerField("诗词类别") #0--诗 1--词
+
+
+    class Meta:
+        verbose_name = "搜索内容"
+        verbose_name_plural = "搜索内容"
