@@ -2,14 +2,15 @@ from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from rest_framework import viewsets
 from poem.serialize import PoemListSerializer, ResultPagination, PoetryListSerializer, PoemAuthorSerializer, \
-    PoemDetailSerializer, PoetryAuthorSerializer, PoetryDetailSerializer
-from .models import Poems, Poetry, PoemsAuthor, PoetryAuthor, UserInfo, ErrorInfo
+    PoemDetailSerializer, PoetryAuthorSerializer, PoetryDetailSerializer, RecommendSerializer,MyErrorSerializer
+from .models import Poems, Poetry, PoemsAuthor, PoetryAuthor, UserInfo, ErrorInfo, SearchInfo, Recommend
 from rest_framework.response import Response
 from collections import OrderedDict
 import requests
 from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
+import time
 
 
 # Create your views here.
@@ -203,8 +204,6 @@ def getOpenId(request):
 @csrf_exempt
 def postUserInfo(request):
     if request.method == 'POST':
-        # data = request.POST['data']
-        # json.load(request.text)
 
         data = json.loads(request.body)
         print(data['openId'])
@@ -217,9 +216,11 @@ def postUserInfo(request):
 
     return JsonResponse(None, safe=False)
 
-#纠错信息
+
+# 纠错信息
 @csrf_exempt
 def postError(request):
+    print("===================")
     if request.method == 'POST':
         data = json.loads(request.body)
         ErrorInfo(**data).save()
@@ -227,9 +228,67 @@ def postError(request):
 
     return JsonResponse(result, safe=False)
 
+
+# 搜索内容
 @csrf_exempt
 def postSearch(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        SearchInfo(**data).save()
 
     return JsonResponse(None, safe=False)
+
+
+# 推荐内容
+class RecommendViewSet(viewsets.ModelViewSet):
+    queryset = Recommend.objects.all()
+    serializer_class = RecommendSerializer
+
+    def list(self, request, *args, **kwargs):
+        try:
+            localtime = time.localtime()
+            weekDay = time.strftime("%w", localtime)
+            self.queryset = self.queryset.filter(week=weekDay)[:1]  # 取最新的一条
+            serializer = self.get_serializer(self.queryset, many=True)
+            return Response(OrderedDict([
+                ('code', 200),
+                ('results', serializer.data)
+            ]))
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))
+
+
+# 我的纠错
+class MyErrorViewSet(viewsets.ModelViewSet):
+    queryset = ErrorInfo.objects.all()
+    serializer_class = MyErrorSerializer
+
+    def list(self, request, *args, **kwargs):
+        openId = request.GET.get('openId')
+        if openId is not None:
+            self.queryset = self.queryset.filter(openId=openId)
+        try:
+            queryset = self.filter_queryset(self.queryset)
+            page = self.paginate_queryset(queryset)
+
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+
+                return Response(OrderedDict([
+                    ('code', 200),
+                    ('count', self.paginator.page.paginator.count),
+                    ('next', self.paginator.get_next_link()),
+                    ('previous', self.paginator.get_previous_link()),
+                    ('results', serializer.data)
+                ]))
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+        except:
+            return Response(OrderedDict([
+                ('code', 500),
+                ('results', None)
+            ]))

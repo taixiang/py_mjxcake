@@ -4,7 +4,7 @@
 import six, os
 from zhconv import convert_for_mw
 import django
-
+import time
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cakesite.settings")
 django.setup()
 from poem.models import Poetry, PoetryAuthor
@@ -75,6 +75,11 @@ def getData2():
 
     print("====end")
 
+def getWeek():
+    a = time.localtime()
+    t = time.strftime("%w", a)
+    print(t)
+
 
 if __name__ == "__main__":
-    getData()
+    getWeek()

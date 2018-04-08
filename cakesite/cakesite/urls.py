@@ -31,6 +31,8 @@ router.register(r'poetry', poem_view.PoetryListViewSet, base_name='poetry')
 router.register(r'poetry_author', poem_view.PoetryAuthorViewSet, base_name='poetry_author')
 router.register(r'poemdetail', poem_view.PoemDetailViewSet, base_name='poemdetail')
 router.register(r'poetrydetail', poem_view.PoetryDetailViewSet, base_name='poetrydetail')
+router.register(r'recommed', poem_view.RecommendViewSet, base_name='recommed')
+router.register(r'myerror', poem_view.MyErrorViewSet, base_name='myerror')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
