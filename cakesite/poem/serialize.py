@@ -70,7 +70,8 @@ class MyErrorSerializer(serializers.ModelSerializer):
     def getPId(self, obj):
         print(obj.type)
         data = []
-        Poems.objects.get(id=obj.pId)
+        content = None
+        if obj.type == 0:
+            Poems.objects.get(id=obj.pId)
         data.append({})
         return "111"
-

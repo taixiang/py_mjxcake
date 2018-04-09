@@ -263,12 +263,14 @@ class RecommendViewSet(viewsets.ModelViewSet):
 
 # 我的纠错
 class MyErrorViewSet(viewsets.ModelViewSet):
+    pagination_class = ResultPagination
     queryset = ErrorInfo.objects.all()
     serializer_class = MyErrorSerializer
 
     def list(self, request, *args, **kwargs):
         openId = request.GET.get('openId')
         if openId is not None:
+            print("==============")
             self.queryset = self.queryset.filter(openId=openId)
         try:
             queryset = self.filter_queryset(self.queryset)
