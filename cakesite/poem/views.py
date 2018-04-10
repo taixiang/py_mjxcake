@@ -213,6 +213,10 @@ def postUserInfo(request):
             print("==========")
             userInfo = UserInfo(**data)
             userInfo.save()
+        elif 'nickName' in data.keys():
+            print("------")
+            user.update(**data)
+
 
     return JsonResponse(None, safe=False)
 
