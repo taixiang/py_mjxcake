@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from rest_framework.pagination import PageNumberPagination
 from .models import Poems, Poetry, PoemsAuthor, PoetryAuthor, Recommend, ErrorInfo
+from django.core import serializers as jsonSer
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 
 class ResultPagination(PageNumberPagination):
@@ -68,10 +71,11 @@ class MyErrorSerializer(serializers.ModelSerializer):
         fields = ('id', 'openId', 'pId', 'content', 'type')
 
     def getPId(self, obj):
-        print(obj.type)
-        data = []
-        content = None
         if obj.type == 0:
-            Poems.objects.get(id=obj.pId)
-        data.append({})
-        return "111"
+            queryset = Poetry.objects.get(id=obj.pId)
+
+        else:
+            queryset = Poems.objects.get(id=obj.pId)
+        content = model_to_dict(queryset)
+
+        return content
