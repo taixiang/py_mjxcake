@@ -205,7 +205,7 @@ def getOpenId(request):
 def postUserInfo(request):
     if request.method == 'POST':
 
-        data = json.loads(request.body)
+        data = json.loads(request.body.decode('utf-8'))
         print(data['openId'])
         user = UserInfo.objects.filter(openId=data['openId'])
         print(user)
@@ -226,7 +226,7 @@ def postUserInfo(request):
 def postError(request):
     print("===================")
     if request.method == 'POST':
-        data = json.loads(request.body)
+        data = json.loads(request.body.decode('utf-8'))
         ErrorInfo(**data).save()
         result = "{ \"code\":" + "200" + ",\"result\":" + "\"提交成功\"}"
 
@@ -237,7 +237,7 @@ def postError(request):
 @csrf_exempt
 def postSearch(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
+        data = json.loads(request.body.decode('utf-8'))
         SearchInfo(**data).save()
 
     return JsonResponse(None, safe=False)
