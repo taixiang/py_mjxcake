@@ -56,7 +56,7 @@ class PoetryAuthor(models.Model):
 
 # 用户表
 class UserInfo(models.Model):
-    nickName = models.CharField("昵称", max_length=150)
+    nickName = models.CharField("昵称", max_length=150, blank=True, default="")
     avatarUrl = models.TextField("头像", blank=True, default="")
     gender = models.IntegerField("性别", blank=True, default=0)
     language = models.CharField("语言", max_length=150, blank=True, default="")
@@ -64,6 +64,7 @@ class UserInfo(models.Model):
     province = models.CharField("省", max_length=150, blank=True, default="")
     country = models.CharField("国家", max_length=150, blank=True, default="")
     openId = models.CharField("openId", max_length=150, blank=True, default="")
+    time = models.CharField("时间", max_length=150, blank=True, default="")
 
     class Meta:
         verbose_name = "用户列表"

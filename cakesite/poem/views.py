@@ -11,6 +11,7 @@ from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
 import time
+import time
 
 
 # Create your views here.
@@ -206,9 +207,11 @@ def postUserInfo(request):
     if request.method == 'POST':
 
         data = json.loads(request.body.decode('utf-8'))
+        t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+        print(t)
+        data['time'] = t
         print(data['openId'])
         user = UserInfo.objects.filter(openId=data['openId'])
-        print(user)
         if not user:
             print("==========")
             userInfo = UserInfo(**data)
