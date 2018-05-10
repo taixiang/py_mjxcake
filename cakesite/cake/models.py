@@ -70,3 +70,7 @@ class Message(models.Model):
 
     def __str__(self):
         return self.slogen
+
+
+class Count(models.Model):
+    num = models.IntegerField("次数", default=0)

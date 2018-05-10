@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from .models import Category, Cake, Message
+from .models import Category, Cake, Message, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.core import serializers
@@ -105,6 +105,13 @@ class CakeListViewSet(viewsets.ModelViewSet):
     serializer_class = CakeListSerializer
 
     def list(self, request, *args, **kwargs):
+        try:
+            counts = Count.objects.get_or_create(id=1)[0]
+            counts.num += 1
+            counts.save()
+        except:
+            pass
+
         try:
             queryset = self.filter_queryset(self.get_queryset())
             page = self.paginate_queryset(queryset)
