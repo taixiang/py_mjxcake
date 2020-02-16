@@ -6,5 +6,6 @@ urlpatterns = [
     url(r'^postUserInfo', views.postUserInfo, name='postUserInfo'),
     url(r'^postError', views.postError, name='postError'),
     url(r'^postSearch', views.postSearch, name='postSearch'),
+    url(r'^getQQOpenId', views.getQQOpenId, name='getQQOpenId'),
 
 ]
